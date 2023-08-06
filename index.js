@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 app.use( express.json())
+app.use(express.static('build'))
 
 morgan.token('data',(request, response)=>{
   return JSON.stringify(request.body)
@@ -71,8 +72,7 @@ app.post('/api/persons', (request, response) =>{
             error:'content missing'
         })
     }
-
-    if(!persons.find(person=> person.name === body.name)){
+    if(persons.find(person=> person.name === body.name)){
         return response.status(406).json({
             error:'the person is already in the phonebook'
         })
